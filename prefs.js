@@ -46,6 +46,7 @@ export default class AiUsagebarPreferences extends ExtensionPreferences {
             kimi: () => this._buildKimiPage(settings),
             ollama: () => this._buildOllamaPage(settings),
             custom: () => this._buildCustomPage(settings, cleanups),
+            antigravity: () => this._buildAntigravityPage(settings, cleanups),
         };
         const nav = prefsNav(_);
         const pages = new Map();
@@ -144,6 +145,28 @@ export default class AiUsagebarPreferences extends ExtensionPreferences {
         return new Gtk.ListBoxRow({child: box});
     }
 
+    _choiceRow(settings, key, title, ids, labels, cleanups, subtitle = '') {
+        const model = new Gtk.StringList();
+        for (const label of labels)
+            model.append(label);
+        const row = new Adw.ComboRow({title, subtitle, model});
+        row.selected = Math.max(0, ids.indexOf(settings.get_string(key)));
+        const notifyId = row.connect('notify::selected', () => {
+            if (ids[row.selected])
+                settings.set_string(key, ids[row.selected]);
+        });
+        const resyncId = settings.connect(`changed::${key}`, () => {
+            const selected = ids.indexOf(settings.get_string(key));
+            if (selected >= 0 && row.selected !== selected)
+                row.selected = selected;
+        });
+        cleanups.push(() => {
+            row.disconnect(notifyId);
+            settings.disconnect(resyncId);
+        });
+        return row;
+    }
+
     _buildPanelPage(settings, cleanups) {
         const page = new Adw.PreferencesPage();
 
@@ -186,8 +209,11 @@ export default class AiUsagebarPreferences extends ExtensionPreferences {
             title: _('Panel label'),
             // Translators: the {token} names are literal placeholders the user
             // types: keep them verbatim, only translate the surrounding prose.
-            description: _('Placeholders: {vendor_short} {session_pct}% {session_reset} {plan} {weekly_pct} {weekly_reset}'),
+            description: _('Use {display_pct} to follow Percentage display. Explicit {remaining_pct}%, {session_pct}% and {weekly_pct}% retain their meanings.'),
         });
+        labelGroup.add(this._choiceRow(settings, 'percentage-display', _('Percentage display'),
+            ['used', 'remaining', 'both'], [_('Used'), _('Remaining'), _('Both')], cleanups,
+            _('Applies to the panel and popup quotas. Both shows used / remaining.')));
         const barFormat = new Adw.EntryRow({title: _('Bar format')});
         settings.bind('bar-format', barFormat, 'text', Gio.SettingsBindFlags.DEFAULT);
         labelGroup.add(barFormat);
@@ -497,6 +523,45 @@ export default class AiUsagebarPreferences extends ExtensionPreferences {
         group.add(this._entryRow(settings, 'ollama-api-key-env', _('API key env var')));
         group.add(this._passwordRow(settings, 'ollama-api-key', _('API key (inline)')));
         group.add(this._entryRow(settings, 'ollama-plan', _('Plan name (optional)')));
+        page.add(group);
+        return page;
+    }
+
+    _buildAntigravityPage(settings, cleanups) {
+        const page = new Adw.PreferencesPage();
+        const group = new Adw.PreferencesGroup({
+            title: _('Antigravity'),
+            description: _('Uses the local agy CLI login. Run agy once to sign in.'),
+        });
+        group.add(this._switchRow(settings, 'antigravity-enabled', _('Enabled')));
+        group.add(this._entryRow(settings, 'antigravity-executable', _('agy executable path (optional)')));
+        const ids = ['all', 'gemini', '3p'];
+        const model = new Gtk.StringList();
+        for (const label of [_('Both groups'), 'Gemini', 'Claude / GPT'])
+            model.append(label);
+        const row = new Adw.ComboRow({
+            title: _('Models shown in the panel'),
+            subtitle: _('Each group has its own 5-hour and weekly quota.'),
+            model,
+        });
+        row.selected = Math.max(0, ids.indexOf(settings.get_string('antigravity-panel-group')));
+        const notifyId = row.connect('notify::selected', () => {
+            if (ids[row.selected])
+                settings.set_string('antigravity-panel-group', ids[row.selected]);
+        });
+        const resyncId = settings.connect('changed::antigravity-panel-group', () => {
+            const selected = ids.indexOf(settings.get_string('antigravity-panel-group'));
+            if (selected >= 0 && row.selected !== selected)
+                row.selected = selected;
+        });
+        cleanups.push(() => {
+            row.disconnect(notifyId);
+            settings.disconnect(resyncId);
+        });
+        group.add(row);
+        group.add(this._choiceRow(settings, 'antigravity-label-style', _('Group labels in the panel'),
+            ['full', 'short', 'hidden'], [_('Full'), _('Short'), _('Hidden')], cleanups,
+            _('Short uses G and C/G. Full names always remain in the popup.')));
         page.add(group);
         return page;
     }

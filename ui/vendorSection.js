@@ -64,16 +64,17 @@ function cardRow() {
 
 function buildWindowRow(row, showPace) {
     const r = cardRow();
-    const pctText = row.paceGlyph ? `${row.pct}% ${row.paceGlyph}` : `${row.pct}%`;
+    const value = row.percentageText ?? `${row.pct}%`;
+    const pctText = row.paceGlyph ? `${value} ${row.paceGlyph}` : value;
     r.add_child(rowHeader(row.icon, row.title, {
         subtitle: row.subtitle,
         footnote: row.paceFootnote,
         trailing: pctText,
         trailingColor: row.color,
     }));
-    const marker = showPace ? row.elapsedPct ?? null : null;
-    const overColor = marker !== null ? row.paceColor ?? null : null;
-    r.add_child(makeBar(row.pct, row.color, marker, overColor));
+    const marker = showPace ? row.barMarker ?? row.elapsedPct ?? null : null;
+    const overColor = marker !== null ? ('barOverColor' in row ? row.barOverColor : row.paceColor ?? null) : null;
+    r.add_child(makeBar(row.barPct ?? row.pct, row.color, marker, overColor));
     return r;
 }
 

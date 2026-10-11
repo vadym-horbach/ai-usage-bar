@@ -83,8 +83,8 @@ i18n-check:
 	@./tools/i18n.sh check
 
 # pack bundles only a fixed top-level set, so lib/ and ui/ need --extra-source; --podir=po ships the .mo files.
-pack: schemas
-	gnome-extensions pack . --extra-source=lib --extra-source=ui --extra-source=icons --podir=po --force
+pack: schemas compile-locale
+	./tools/pack-custom.sh
 
 info:
 	gnome-extensions info $(UUID)

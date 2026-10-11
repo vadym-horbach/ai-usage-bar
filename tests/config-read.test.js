@@ -30,6 +30,13 @@ function makeSettings() {
 
 describe('readConfig: schema defaults', () => {
     const cfg = readConfig(makeSettings());
+    it('antigravity is enabled with automatic executable discovery', () => {
+        assertEqual(cfg.vendors.antigravity.enabled, true);
+        assertEqual(cfg.vendors.antigravity.executable, null);
+        assertEqual(cfg.vendors.antigravity.panelGroup, 'all');
+        assertEqual(cfg.vendors.antigravity.labelStyle, 'short');
+        assertEqual(cfg.percentageDisplay, 'remaining');
+    });
     it('refresh interval defaults to 300', () => assertEqual(cfg.refreshIntervalSecs, 300));
     it('vendor logos shown by default', () => assertEqual(cfg.showVendorIcons, true));
     it('panel position defaults to right of the clock', () => {
@@ -37,7 +44,7 @@ describe('readConfig: schema defaults', () => {
         assertEqual(cfg.panel.index, 1);
     });
     it('default bar format', () =>
-        assertEqual(cfg.barFormat, '{session_pct}% · {session_reset}'));
+        assertEqual(cfg.barFormat, '{display_pct}'));
     it('primary vendor defaults to anthropic', () => assertEqual(cfg.primaryVendor, 'anthropic'));
     it('anthropic enabled by default', () => assertEqual(cfg.vendors.anthropic.enabled, true));
     it('anthropic creds path unset → null', () => assertEqual(cfg.vendors.anthropic.credentialsPath, null));

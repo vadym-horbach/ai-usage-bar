@@ -36,7 +36,7 @@ describe('prefsNav: translation', () => {
     it('keeps brand names verbatim and translates only Custom', () =>
         assertDeepEqual(
             nav[1].items.map(i => i.title),
-            ['Anthropic', 'OpenAI', 'Z.AI', 'OpenRouter', 'DeepSeek', 'Kimi', 'Ollama', '<Custom>']
+            ['Anthropic', 'OpenAI', 'Z.AI', 'OpenRouter', 'DeepSeek', 'Kimi', 'Ollama', '<Custom>', 'Antigravity']
         ));
 });
 

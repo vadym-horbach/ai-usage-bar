@@ -9,6 +9,7 @@
     <value nick="kimi" value="5"/>
     <value nick="ollama" value="6"/>
     <value nick="custom" value="7"/>
+    <value nick="antigravity" value="8"/>
   </enum>
 
   <schema id="org.gnome.shell.extensions.ai-usagebar"
@@ -34,7 +35,7 @@
     </key>
 
     <key name="bar-format" type="s">
-      <default>'{session_pct}% · {session_reset}'</default>
+      <default>'{display_pct}'</default>
       <summary>Panel label format template</summary>
       <description>Template for the top-panel label. Supports {placeholder} substitution from the active vendor's value set.</description>
     </key>
@@ -180,7 +181,7 @@
     </key>
 
     <key name="zai-enabled" type="b">
-      <default>true</default>
+      <default>false</default>
       <summary>Enable Z.AI</summary>
       <description>Whether the Z.AI vendor is polled and shown.</description>
     </key>
@@ -204,7 +205,7 @@
     </key>
 
     <key name="openrouter-enabled" type="b">
-      <default>true</default>
+      <default>false</default>
       <summary>Enable OpenRouter</summary>
       <description>Whether the OpenRouter vendor is polled and shown.</description>
     </key>
@@ -341,5 +342,34 @@
       <description>A JSON object mapping response fields by JSON Pointer to metrics and texts. See the README.</description>
     </key>
 
+    <key name="antigravity-enabled" type="b">
+      <default>true</default>
+      <summary>Enable Antigravity</summary>
+    </key>
+    <key name="antigravity-executable" type="s">
+      <default>''</default>
+      <summary>Antigravity CLI executable path</summary>
+      <description>Empty discovers agy on PATH or in ~/.local/bin.</description>
+    </key>
+    <key name="antigravity-panel-group" type="s">
+      <choices>
+        <choice value="all"/>
+        <choice value="gemini"/>
+        <choice value="3p"/>
+      </choices>
+      <default>'all'</default>
+      <summary>Antigravity model groups shown in the panel</summary>
+      <description>Show Gemini, Claude/GPT, or both independent quota groups.</description>
+    </key>
+    <key name="percentage-display" type="s">
+      <choices><choice value="used"/><choice value="remaining"/><choice value="both"/></choices>
+      <default>'remaining'</default>
+      <summary>Percentage display for panel and quota popup rows</summary>
+    </key>
+    <key name="antigravity-label-style" type="s">
+      <choices><choice value="full"/><choice value="short"/><choice value="hidden"/></choices>
+      <default>'short'</default>
+      <summary>Antigravity panel group labels</summary>
+    </key>
   </schema>
 </schemalist>

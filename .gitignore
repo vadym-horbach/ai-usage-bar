@@ -15,3 +15,6 @@ node_modules/
 
 # Sandbox marker, not part of the project.
 .ai-jail
+
+# Current installable custom build
+!dist/ai-usagebar@wilfison.shell-extension.zip

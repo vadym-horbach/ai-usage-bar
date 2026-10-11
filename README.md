@@ -1,3 +1,62 @@
+# AI Usage Bar — Claude, Codex and Antigravity
+
+Based on AI Usage Bar v1.5.0, upstream commit `97ae1b5c99d820f22d966de7423ce88b07d01157`.
+The popup keeps the upstream card design. All enabled providers appear together
+in the panel and refresh together every 300 seconds by default. Scroll selects
+the expanded popup provider; it does not hide the other panel values.
+
+The default panel format `{display_pct}` follows Preferences → Panel → Percentage
+display: Used, Remaining (default), or Both. It uses the tightest session/weekly
+allowance. Both displays used/remaining, for example `42%/58%`. The popup spells
+out each value and follows the same setting. Remaining bars show quota left;
+Used and Both bars show usage. Warning colors always reflect quota exhaustion.
+The previous default `{remaining_pct}%` also follows this setting for existing
+installations. Explicit custom session/weekly tokens retain their meanings.
+
+Antigravity shows Gemini and Claude/GPT as separate allowances by default.
+Choose Both groups, Gemini, or Claude/GPT in Preferences → Antigravity → Models
+shown in the panel. Group labels can be Full, Short (default: `G` and `C/G`),
+or Hidden. Full model group names remain in the popup, which retains all quotas.
+Use `{session_remaining_pct}% / {weekly_remaining_pct}%` to show both windows.
+`{remaining_reset}` is the tightest window's reset countdown.
+
+Antigravity runs the installed `agy -p /usage --output-format json --print-timeout 20s`
+command asynchronously, with a 25-second timeout and cancellation on disable.
+It uses the CLI's existing login, discovers `agy` on PATH or in `~/.local/bin`,
+and supports an explicit executable path in Preferences. The popup lists every
+reported quota bucket under its model group. Only projected quotas are cached;
+CLI stderr is never displayed or logged.
+
+## Install
+
+Download the [current custom.3 ZIP](https://github.com/vadym-horbach/ai-usage-bar/raw/refs/heads/main/dist/ai-usagebar%40wilfison.shell-extension.zip) or clone this repository, then:
+
+```bash
+gnome-extensions install --force dist/ai-usagebar@wilfison.shell-extension.zip
+```
+
+Log out and back in on Wayland, then:
+
+```bash
+gnome-extensions enable ai-usagebar@wilfison
+gnome-extensions prefs ai-usagebar@wilfison
+```
+
+Enable Claude, OpenAI and Antigravity. Other providers are disabled by default.
+Existing preferences are retained if you already installed upstream; set Bar
+format to `{display_pct}` and disable unwanted providers if needed.
+The extension uses the upstream UUID and replaces that extension's installed files.
+Installing the original v1.5.0 ZIP restores upstream behavior.
+
+## Build and verify
+
+`make test`, `make lint`, `make eslint`, `make validate`, `make pack`.
+`make pack` preserves compiled translations from the checksum-verified upstream
+v1.5.0 release; custom strings use English where translations are unavailable.
+The installed version is `1.5.0-custom.2`.
+
+---
+
 # AI Usage Bar
 
 A GNOME Shell extension that shows your AI plan usage in the top panel for

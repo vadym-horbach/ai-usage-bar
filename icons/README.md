@@ -27,3 +27,5 @@ endorsement by the brand owners is implied.
 The first six and `zai-symbolic.svg` are copied from the
 [ai-usagebar](https://github.com/akitaonrails/ai-usagebar) GNOME extension's
 `gnome-extension/icons/`, which took them from the sources above.
+
+`antigravity-symbolic.svg`: Google Antigravity brand mark from https://antigravity.google/assets/image/brand/antigravity-icon__full-color.svg, cropped to the mark and recolored for the GNOME symbolic foreground. Brand asset: https://antigravity.google/press.
