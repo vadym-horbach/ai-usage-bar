@@ -44,7 +44,7 @@ describe('readConfig: schema defaults', () => {
         assertEqual(cfg.panel.index, 1);
     });
     it('default bar format', () =>
-        assertEqual(cfg.barFormat, '{display_pct}'));
+        assertEqual(cfg.barFormat, '{remaining_pct}%'));
     it('primary vendor defaults to anthropic', () => assertEqual(cfg.primaryVendor, 'anthropic'));
     it('anthropic enabled by default', () => assertEqual(cfg.vendors.anthropic.enabled, true));
     it('anthropic creds path unset → null', () => assertEqual(cfg.vendors.anthropic.credentialsPath, null));

@@ -46,14 +46,14 @@ const result = {ok: true, snapshot: {windows: [
     {id: 'gemini-5h', window: '5h', utilizationPct: 42, resetsAt: null},
     {id: '3p-weekly', window: 'weekly', utilizationPct: 70, resetsAt: null},
 ]}};
-const value = (mode, style, format = '{display_pct}') => panelValue(antigravityAdapter, result, format, new Date(), null,
+const value = (mode, style, format = '{remaining_pct}%') => panelValue(antigravityAdapter, result, format, new Date(), null,
     {percentageDisplay: mode, vendors: {antigravity: {panelGroup: 'all', labelStyle: style}}});
 describe('AGY label styles and consistent modes', () => {
-    it('short and remaining are the defaults', () => assertEqual(panelValue(antigravityAdapter, result, '{display_pct}', new Date()).text, 'G 58% · C/G 30%'));
+    it('short and remaining are the defaults', () => assertEqual(panelValue(antigravityAdapter, result, '{remaining_pct}%', new Date()).text, 'G 58% · C/G 30%'));
     it('full names', () => assertEqual(value('remaining', 'full').text, 'Gemini 58% · Claude/GPT 30%'));
     it('hidden names', () => assertEqual(value('remaining', 'hidden').text, '58% · 30%'));
-    it('used mode applies inside both groups', () => assertEqual(value('used', 'short').text, 'G 42% · C/G 70%'));
-    it('both mode applies inside both groups', () => assertEqual(value('both', 'short').text, 'G 42%/58% · C/G 70%/30%'));
+    it('explicit used tokens work inside both groups', () => assertEqual(value('used', 'short', '{session_pct}%/{weekly_pct}%').text, 'G 42%/% · C/G %/70%'));
+    it('explicit remaining ignores popup both mode', () => assertEqual(value('both', 'short').text, 'G 58% · C/G 30%'));
     it('remaining token always shows remaining even in used mode', () => assertEqual(value('used', 'short', '{remaining_pct}%').text, 'G 58% · C/G 30%'));
     it('remaining token stays fixed in both mode', () => assertEqual(value('both', 'short', '{remaining_pct}%').text, 'G 58% · C/G 30%'));
     it('weekly remaining is separate from session remaining', () => assertEqual(value('used', 'short', '{session_remaining_pct}%/{weekly_remaining_pct}%').text, 'G 58%/-% · C/G -%/30%'));

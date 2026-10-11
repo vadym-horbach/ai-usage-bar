@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ai-usagebar@wilfison\n"
 "Report-Msgid-Bugs-To: https://github.com/wilfison/ai-usagebar/issues\n"
-"POT-Creation-Date: 2026-10-11 15:03+0300\n"
+"POT-Creation-Date: 2026-10-11 15:09+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -129,7 +129,7 @@ msgstr ""
 msgid "Panel"
 msgstr ""
 
-#: lib/prefs-nav.js:11 prefs.js:229
+#: lib/prefs-nav.js:11 prefs.js:226
 msgid "Popup"
 msgstr ""
 
@@ -518,7 +518,6 @@ msgstr ""
 #. types: keep them verbatim, only translate the surrounding prose.
 #: prefs.js:212
 msgid ""
-"Mode-dependent: {display_pct} (includes %).\n"
 "Always remaining: {remaining_pct}% {session_remaining_pct}% "
 "{weekly_remaining_pct}% {remaining_reset}.\n"
 "Always used: {session_pct}% {weekly_pct}%.\n"
@@ -528,36 +527,37 @@ msgid ""
 msgstr ""
 
 #: prefs.js:214
-msgid "Percentage display"
-msgstr ""
-
-#: prefs.js:215
-msgid "Used"
-msgstr ""
-
-#: prefs.js:215
-msgid "Remaining"
-msgstr ""
-
-#: prefs.js:215
-msgid "Both"
-msgstr ""
-
-#: prefs.js:216
-msgid "Applies to the panel and popup quotas. Both shows used / remaining."
-msgstr ""
-
-#: prefs.js:217
 msgid "Bar format"
 msgstr ""
 
 #. Translators: the {token} names are literal placeholders the user
 #. types: keep them verbatim, only translate the surrounding prose.
-#: prefs.js:232
+#: prefs.js:229
 msgid ""
 "Optional extra lines shown above the popup. Empty uses the built-in layout. "
 "Placeholders: {plan} {session_pct} {session_reset} {weekly_pct} "
 "{weekly_reset}"
+msgstr ""
+
+#: prefs.js:231
+msgid "Percentage display"
+msgstr ""
+
+#: prefs.js:232
+msgid "Used"
+msgstr ""
+
+#: prefs.js:232
+msgid "Remaining"
+msgstr ""
+
+#: prefs.js:232
+msgid "Both"
+msgstr ""
+
+#: prefs.js:233
+msgid ""
+"Applies to popup quotas. Panel percentages use the explicit placeholders."
 msgstr ""
 
 #: prefs.js:234

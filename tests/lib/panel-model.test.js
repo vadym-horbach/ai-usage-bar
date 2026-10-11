@@ -18,8 +18,10 @@ describe('combined panel value', () => {
     it('shows loading independently', () => assertDeepEqual(value(undefined), {text: '…', severity: null}));
     it('shows errors independently', () => assertDeepEqual(value({ok: false, kind: 'error'}), {text: '⚠', severity: 'critical'}));
     it('weekly remaining ignores display mode', () => assertEqual(panelValue(adapter, result('20', '70'), '{weekly_remaining_pct}%', new Date(), null, {percentageDisplay: 'used'}).text, '30%'));
-    it('remaining and display have distinct meanings in used mode', () => assertEqual(panelValue(adapter, result('20', '70'), '{remaining_pct}%/{display_pct}', new Date(), null, {percentageDisplay: 'used'}).text, '30%/70%'));
-    it('remaining and display coincide in remaining mode', () => assertEqual(panelValue(adapter, result('20', '70'), '{remaining_pct}%/{display_pct}', new Date(), null, {percentageDisplay: 'remaining'}).text, '30%/30%'));
+    it('preserves old placeholders alongside remaining', () => {
+        const original = {placeholders: () => new Map([['icon', 'logo'], ['vendor_short', 'cld'], ['plan', 'Pro'], ['session_pct', '20'], ['weekly_pct', '70'], ['session_reset', '2h'], ['weekly_reset', '3d'], ['session_elapsed', '40'], ['weekly_elapsed', '50'], ['session_pace', '↑'], ['weekly_pace', '↓']])};
+        assertEqual(panelValue(original, result('20', '70'), '{icon} {vendor_short} {plan} {session_pct}% {weekly_pct}% {session_reset} {weekly_reset} {session_elapsed} {weekly_elapsed} {session_pace} {weekly_pace}', new Date()).text, 'logo cld Pro 20% 70% 2h 3d 40 50 ↑ ↓');
+    });
     it('supports separate session and weekly remaining percentages', () => assertEqual(panelValue(adapter, result('20', '70'), '{session_remaining_pct}% / {weekly_remaining_pct}%', new Date()).text, '80% / 30%'));
 });
 describe('independent Antigravity panel quotas', () => {

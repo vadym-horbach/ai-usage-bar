@@ -5,15 +5,16 @@ The popup keeps the upstream card design. All enabled providers appear together
 in the panel and refresh together every 300 seconds by default. Scroll selects
 the expanded popup provider; it does not hide the other panel values.
 
-The default panel format `{display_pct}` follows Preferences → Panel → Percentage
-display: Used, Remaining (default), or Both. It uses the tightest session/weekly
-allowance. Both displays used/remaining, for example `42%/58%`. The popup spells
-out each value and follows the same setting. Remaining bars show quota left;
-Used and Both bars show usage. Warning colors always reflect quota exhaustion.
-`{remaining_pct}` always gives the remaining number without a percent sign.
-`{display_pct}` includes the percent sign and follows the mode: used, remaining,
-or both. They match only in Remaining mode. Use `{display_pct}` as the bar
-format to follow the setting; explicit remaining/usage tokens stay fixed.
+The default panel format `{remaining_pct}%` shows the tightest remaining
+session/weekly allowance. All original vendor placeholders remain supported.
+`{session_pct}%` and `{weekly_pct}%` always show usage; `{session_remaining_pct}%`
+and `{weekly_remaining_pct}%` always show quota left.
+
+Preferences → Popup → Percentage display controls popup quota cards only:
+Used, Remaining (default), or Both. Remaining bars show quota left; Used and
+Both bars show usage. Warning colors always reflect quota exhaustion.
+Formats saved with the removed mode-dependent token are converted to the
+explicit remaining format on enable.
 
 Antigravity shows Gemini and Claude/GPT as separate allowances by default.
 Choose Both groups, Gemini, or Claude/GPT in Preferences → Antigravity → Models
@@ -32,7 +33,7 @@ CLI stderr is never displayed or logged.
 
 ## Install
 
-Download the [current custom.4 ZIP](https://github.com/vadym-horbach/ai-usage-bar/raw/refs/heads/main/dist/ai-usagebar%40wilfison.shell-extension.zip) or clone this repository, then:
+Download the [current custom.5 ZIP](https://github.com/vadym-horbach/ai-usage-bar/raw/refs/heads/main/dist/ai-usagebar%40wilfison.shell-extension.zip) or clone this repository, then:
 
 ```bash
 gnome-extensions install --force dist/ai-usagebar@wilfison.shell-extension.zip
@@ -47,7 +48,7 @@ gnome-extensions prefs ai-usagebar@wilfison
 
 Enable Claude, OpenAI and Antigravity. Other providers are disabled by default.
 Existing preferences are retained if you already installed upstream; set Bar
-format to `{display_pct}` and disable unwanted providers if needed.
+format to `{remaining_pct}%` and disable unwanted providers if needed.
 The extension uses the upstream UUID and replaces that extension's installed files.
 Installing the original v1.5.0 ZIP restores upstream behavior.
 

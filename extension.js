@@ -12,6 +12,9 @@ const TOGGLE_MENU_KEY = 'toggle-menu';
 export default class AiUsagebarExtension extends Extension {
     enable() {
         this._settings = this.getSettings();
+        const format = this._settings.get_string('bar-format');
+        if (format.includes('{display_pct}'))
+            this._settings.set_string('bar-format', format.replaceAll('{display_pct}', '{remaining_pct}%'));
         this._placeIds = ['changed::panel-box', 'changed::panel-index']
             .map(signal => this._settings.connect(signal, () => this._place()));
         this._place();

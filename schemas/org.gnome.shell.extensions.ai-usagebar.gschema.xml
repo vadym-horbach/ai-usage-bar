@@ -35,7 +35,7 @@
     </key>
 
     <key name="bar-format" type="s">
-      <default>'{display_pct}'</default>
+      <default>'{remaining_pct}%'</default>
       <summary>Panel label format template</summary>
       <description>Template for the top-panel label. Supports {placeholder} substitution from the active vendor's value set.</description>
     </key>
@@ -364,7 +364,7 @@
     <key name="percentage-display" type="s">
       <choices><choice value="used"/><choice value="remaining"/><choice value="both"/></choices>
       <default>'remaining'</default>
-      <summary>Percentage display for panel and quota popup rows</summary>
+      <summary>Percentage display for quota popup rows</summary>
     </key>
     <key name="antigravity-label-style" type="s">
       <choices><choice value="full"/><choice value="short"/><choice value="hidden"/></choices>

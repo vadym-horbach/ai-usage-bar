@@ -209,11 +209,8 @@ export default class AiUsagebarPreferences extends ExtensionPreferences {
             title: _('Panel label'),
             // Translators: the {token} names are literal placeholders the user
             // types: keep them verbatim, only translate the surrounding prose.
-            description: _('Mode-dependent: {display_pct} (includes %).\nAlways remaining: {remaining_pct}% {session_remaining_pct}% {weekly_remaining_pct}% {remaining_reset}.\nAlways used: {session_pct}% {weekly_pct}%.\nOther placeholders: {icon} {vendor_short} {plan} {session_reset} {weekly_reset} {session_elapsed} {weekly_elapsed} {session_pace} {weekly_pace}.'),
+            description: _('Always remaining: {remaining_pct}% {session_remaining_pct}% {weekly_remaining_pct}% {remaining_reset}.\nAlways used: {session_pct}% {weekly_pct}%.\nOther placeholders: {icon} {vendor_short} {plan} {session_reset} {weekly_reset} {session_elapsed} {weekly_elapsed} {session_pace} {weekly_pace}.'),
         });
-        labelGroup.add(this._choiceRow(settings, 'percentage-display', _('Percentage display'),
-            ['used', 'remaining', 'both'], [_('Used'), _('Remaining'), _('Both')], cleanups,
-            _('Applies to the panel and popup quotas. Both shows used / remaining.')));
         const barFormat = new Adw.EntryRow({title: _('Bar format')});
         settings.bind('bar-format', barFormat, 'text', Gio.SettingsBindFlags.DEFAULT);
         labelGroup.add(barFormat);
@@ -231,6 +228,9 @@ export default class AiUsagebarPreferences extends ExtensionPreferences {
             // types: keep them verbatim, only translate the surrounding prose.
             description: _('Optional extra lines shown above the popup. Empty uses the built-in layout. Placeholders: {plan} {session_pct} {session_reset} {weekly_pct} {weekly_reset}'),
         });
+        popupGroup.add(this._choiceRow(settings, 'percentage-display', _('Percentage display'),
+            ['used', 'remaining', 'both'], [_('Used'), _('Remaining'), _('Both')], cleanups,
+            _('Applies to popup quotas. Panel percentages use the explicit placeholders.')));
         popupGroup.add(this._entryRow(settings, 'tooltip-format', _('Popup format')));
         popupGroup.add(this._switchRow(settings, 'show-pace-marker', _('Show pace marker'),
             _('A tick at how much of the window has passed. Usage past it turns orange or red when it would run out before the reset.')));
