@@ -17,6 +17,9 @@ describe('combined panel value', () => {
     it('marks stale quota', () => assertEqual(value(result('20', '0', true)).text, '80% · 2h ⏸'));
     it('shows loading independently', () => assertDeepEqual(value(undefined), {text: '…', severity: null}));
     it('shows errors independently', () => assertDeepEqual(value({ok: false, kind: 'error'}), {text: '⚠', severity: 'critical'}));
+    it('weekly remaining ignores display mode', () => assertEqual(panelValue(adapter, result('20', '70'), '{weekly_remaining_pct}%', new Date(), null, {percentageDisplay: 'used'}).text, '30%'));
+    it('remaining and display have distinct meanings in used mode', () => assertEqual(panelValue(adapter, result('20', '70'), '{remaining_pct}%/{display_pct}', new Date(), null, {percentageDisplay: 'used'}).text, '30%/70%'));
+    it('remaining and display coincide in remaining mode', () => assertEqual(panelValue(adapter, result('20', '70'), '{remaining_pct}%/{display_pct}', new Date(), null, {percentageDisplay: 'remaining'}).text, '30%/30%'));
     it('supports separate session and weekly remaining percentages', () => assertEqual(panelValue(adapter, result('20', '70'), '{session_remaining_pct}% / {weekly_remaining_pct}%', new Date()).text, '80% / 30%'));
 });
 describe('independent Antigravity panel quotas', () => {

@@ -209,7 +209,7 @@ export default class AiUsagebarPreferences extends ExtensionPreferences {
             title: _('Panel label'),
             // Translators: the {token} names are literal placeholders the user
             // types: keep them verbatim, only translate the surrounding prose.
-            description: _('Use {display_pct} to follow Percentage display. Explicit {remaining_pct}%, {session_pct}% and {weekly_pct}% retain their meanings.'),
+            description: _('Mode-dependent: {display_pct} (includes %).\nAlways remaining: {remaining_pct}% {session_remaining_pct}% {weekly_remaining_pct}% {remaining_reset}.\nAlways used: {session_pct}% {weekly_pct}%.\nOther placeholders: {icon} {vendor_short} {plan} {session_reset} {weekly_reset} {session_elapsed} {weekly_elapsed} {session_pace} {weekly_pace}.'),
         });
         labelGroup.add(this._choiceRow(settings, 'percentage-display', _('Percentage display'),
             ['used', 'remaining', 'both'], [_('Used'), _('Remaining'), _('Both')], cleanups,

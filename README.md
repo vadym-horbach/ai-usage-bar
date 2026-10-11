@@ -10,14 +10,17 @@ display: Used, Remaining (default), or Both. It uses the tightest session/weekly
 allowance. Both displays used/remaining, for example `42%/58%`. The popup spells
 out each value and follows the same setting. Remaining bars show quota left;
 Used and Both bars show usage. Warning colors always reflect quota exhaustion.
-The previous default `{remaining_pct}%` also follows this setting for existing
-installations. Explicit custom session/weekly tokens retain their meanings.
+`{remaining_pct}` always gives the remaining number without a percent sign.
+`{display_pct}` includes the percent sign and follows the mode: used, remaining,
+or both. They match only in Remaining mode. Use `{display_pct}` as the bar
+format to follow the setting; explicit remaining/usage tokens stay fixed.
 
 Antigravity shows Gemini and Claude/GPT as separate allowances by default.
 Choose Both groups, Gemini, or Claude/GPT in Preferences → Antigravity → Models
 shown in the panel. Group labels can be Full, Short (default: `G` and `C/G`),
 or Hidden. Full model group names remain in the popup, which retains all quotas.
-Use `{session_remaining_pct}% / {weekly_remaining_pct}%` to show both windows.
+Use `{session_remaining_pct}% / {weekly_remaining_pct}%` to show remaining
+quota for the session and weekly windows separately.
 `{remaining_reset}` is the tightest window's reset countdown.
 
 Antigravity runs the installed `agy -p /usage --output-format json --print-timeout 20s`
@@ -29,7 +32,7 @@ CLI stderr is never displayed or logged.
 
 ## Install
 
-Download the [current custom.3 ZIP](https://github.com/vadym-horbach/ai-usage-bar/raw/refs/heads/main/dist/ai-usagebar%40wilfison.shell-extension.zip) or clone this repository, then:
+Download the [current custom.4 ZIP](https://github.com/vadym-horbach/ai-usage-bar/raw/refs/heads/main/dist/ai-usagebar%40wilfison.shell-extension.zip) or clone this repository, then:
 
 ```bash
 gnome-extensions install --force dist/ai-usagebar@wilfison.shell-extension.zip

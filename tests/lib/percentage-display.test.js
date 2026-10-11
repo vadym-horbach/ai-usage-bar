@@ -54,7 +54,9 @@ describe('AGY label styles and consistent modes', () => {
     it('hidden names', () => assertEqual(value('remaining', 'hidden').text, '58% · 30%'));
     it('used mode applies inside both groups', () => assertEqual(value('used', 'short').text, 'G 42% · C/G 70%'));
     it('both mode applies inside both groups', () => assertEqual(value('both', 'short').text, 'G 42%/58% · C/G 70%/30%'));
-    it('legacy default follows the new mode', () => assertEqual(value('used', 'short', '{remaining_pct}%').text, 'G 42% · C/G 70%'));
+    it('remaining token always shows remaining even in used mode', () => assertEqual(value('used', 'short', '{remaining_pct}%').text, 'G 58% · C/G 30%'));
+    it('remaining token stays fixed in both mode', () => assertEqual(value('both', 'short', '{remaining_pct}%').text, 'G 58% · C/G 30%'));
+    it('weekly remaining is separate from session remaining', () => assertEqual(value('used', 'short', '{session_remaining_pct}%/{weekly_remaining_pct}%').text, 'G 58%/-% · C/G -%/30%'));
     it('explicit custom tokens retain meaning', () => assertEqual(value('used', 'short', 'left {remaining_pct}%').text, 'G left 58% · C/G left 30%'));
     it('exhaustion severity does not flip with display mode', () => assertEqual(value('used', 'short').severity, value('remaining', 'short').severity));
 });
